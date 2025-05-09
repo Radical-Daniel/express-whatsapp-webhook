@@ -16,11 +16,26 @@ app.post('/whatsapp-webhook', async (req, res) => {
     try {
         const response = await axios.post(
             `https://graph.facebook.com/v19.0/${WHATSAPP_PHONE_NUMBER_ID}/messages`,
+            
+            
             {
                 messaging_product: 'whatsapp',
                 to: phone,
-                type: 'text',
-                text: { body: message },
+                type: 'template',
+                template: { 
+                    name: "bid_test",
+                    language: {
+                         "code": "en"
+                    },
+                    components: [{
+                        "type": "body",
+                         "parameters": [
+          {
+            "type": "text",
+            "text": message,
+          }
+        ] },],
+            },
             },
             {
                 headers: {
