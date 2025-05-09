@@ -1,14 +1,14 @@
 const axios = require('axios');
 
-const WHATSAPP_TOKEN = 'EAAYk7KurZBLQBOyLVIEYJELH15R3yvR57anu8eFyQeZBgfUrOaxsvasykZBeCPXxJFiDTeSj2YxQG3vPSg724UPYPO5f5WdZCYr13XmZA3x2gmxIlfdJdXWKKGl7zxy91JoenUJZCgS0DEsp6zsYV9Fo4oYqENNmU4zODfZBUIvp1IgEjaGMtdyTZBJSUslMFh82moo1shVsMDAwne3xO9UZACFt3xRx9XcL4ZCSZA5XP9R';
-const WHATSAPP_PHONE_NUMBER_ID = '632146033315960';
+const WHATSAPP_TOKEN = process.env.WHATSAPP_TOKEN;
+const WHATSAPP_PHONE_NUMBER_ID = process.env.PHONE_ID;
 
 app.post('/whatsapp-webhook', async (req, res) => {
     const { phone, message } = req.body;
 
     try {
         const response = await axios.post(
-            `https://graph.facebook.com/v19.0/${632146033315960}/messages`,
+            `https://graph.facebook.com/v19.0/${WHATSAPP_PHONE_NUMBER_ID}/messages`,
             {
                 messaging_product: 'whatsapp',
                 to: phone,
