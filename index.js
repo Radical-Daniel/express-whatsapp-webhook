@@ -37,3 +37,6 @@ app.post('/whatsapp-webhook', async (req, res) => {
         res.status(500).json({ success: false, error: error.response?.data || error.message });
     }
 });
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
