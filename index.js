@@ -1,27 +1,32 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const axios = require('axios');
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const WHATSAPP_TOKEN = 'EAAYk7KurZBLQBOyLVIEYJELH15R3yvR57anu8eFyQeZBgfUrOaxsvasykZBeCPXxJFiDTeSj2YxQG3vPSg724UPYPO5f5WdZCYr13XmZA3x2gmxIlfdJdXWKKGl7zxy91JoenUJZCgS0DEsp6zsYV9Fo4oYqENNmU4zODfZBUIvp1IgEjaGMtdyTZBJSUslMFh82moo1shVsMDAwne3xO9UZACFt3xRx9XcL4ZCSZA5XP9R';
+const WHATSAPP_PHONE_NUMBER_ID = '632146033315960';
 
-app.use(bodyParser.json());
+app.post('/whatsapp-webhook', async (req, res) => {
+    const { phone, message } = req.body;
 
-app.post('/whatsapp-webhook', (req, res) => {
-  const { phone, message } = req.body;
+    try {
+        const response = await axios.post(
+            `https://graph.facebook.com/v19.0/${632146033315960}/messages`,
+            {
+                messaging_product: 'whatsapp',
+                to: phone,
+                type: 'text',
+                text: { body: message },
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${WHATSAPP_TOKEN}`,
+                    'Content-Type': 'application/json',
+                },
+            }
+        );
 
-  console.log('📩 Incoming message request:');
-  console.log('To:', phone);
-  console.log('Message:', message);
-
-  // TODO: Integrate with WhatsApp API here (e.g., Twilio, Meta's API)
-
-  res.status(200).json({ status: 'success', info: 'Message received' });
-});
-
-app.get('/', (req, res) => {
-  res.send('Webhook is live 🎉');
-});
-
-app.listen(PORT, () => {
-  console.log(`✅ Webhook server running on port ${PORT}`);
+        console.log('WhatsApp message sent:', response.data);
+        res.status(200).json({ success: true, sent: response.data });
+    } catch (error) {
+        console.error('WhatsApp send error:', error.response?.data || error.message);
+        res.status(500).json({ success: false, error: error.response?.data || error.message });
+    }
 });
