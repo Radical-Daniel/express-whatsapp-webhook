@@ -12,6 +12,7 @@ const WHATSAPP_PHONE_NUMBER_ID = process.env.PHONE_ID;
 
 app.post('/whatsapp-webhook', async (req, res) => {
     const { phone, message } = req.body;
+    console.log("we here");
 
     try {
         const response = await axios.post(
