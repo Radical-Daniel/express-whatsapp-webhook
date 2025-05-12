@@ -28,14 +28,19 @@ app.post('/whatsapp-webhook', async (req, res) => {
                     language: {
                          "code": "en"
                     },
-                    components: [{
-                        "type": "body",
-                         "parameters": [
-          {
-            "type": "text",
-            "text": message,
-          }
-        ] },],
+                    components: [
+                        {
+                            type: "body",
+                            parameters: [
+                                { type: "text", text: bid_amount.toString() },
+                                { type: "text", text: listing_name },
+                                { type: "text", text: bidder_name },
+                                { type: "text", text: original_price.toString() },
+                                { type: "text", text: checkin },
+                                { type: "text", text: checkout }
+                            ]
+                        }
+                    ]
             },
             },
             {
