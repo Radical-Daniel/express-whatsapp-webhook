@@ -24,7 +24,7 @@ app.post('/whatsapp-webhook', async (req, res) => {
                 to: phone,
                 type: 'template',
                 template: { 
-                    name: "bid_test",
+                    name: "bid_rec",
                     language: {
                          "code": "en"
                     },
