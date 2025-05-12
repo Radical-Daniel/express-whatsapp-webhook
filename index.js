@@ -11,8 +11,12 @@ const WHATSAPP_TOKEN = process.env.WHATSAPP_TOKEN;
 const WHATSAPP_PHONE_NUMBER_ID = process.env.PHONE_ID;
 
 app.post('/whatsapp-webhook', async (req, res) => {
-    const { phone, message } = req.body;
     console.log("we here");
+   const {
+        phone,
+        template_name,
+        parameters
+    } = req.body;
 
     try {
         const response = await axios.post(
@@ -32,12 +36,12 @@ app.post('/whatsapp-webhook', async (req, res) => {
                         {
                             type: "body",
                             parameters: [
-                                { type: "text", text: bid_amount.toString() },
-                                { type: "text", text: listing_name },
-                                { type: "text", text: bidder_name },
-                                { type: "text", text: original_price.toString() },
-                                { type: "text", text: checkin },
-                                { type: "text", text: checkout }
+                                { type: "text", text: parameters.bid_amount },
+                                { type: "text", text: parameters.listing_name },
+                                { type: "text", text: parameters.bidder_name },
+                                { type: "text", text: parameters.original_price },
+                                { type: "text", text: parameters.checkin },
+                                { type: "text", text: parameters.checkout }
                             ]
                         }
                     ]
