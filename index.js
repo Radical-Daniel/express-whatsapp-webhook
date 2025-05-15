@@ -17,7 +17,29 @@ app.post('/whatsapp-webhook', async (req, res) => {
         template_name,
         parameters
     } = req.body;
-
+    var params = [];
+    if (template_name === "bid_rec") {
+    params = [
+                                { type: "text", text: parameters.bid_amount },
+                                { type: "text", text: parameters.listing_name },
+                                { type: "text", text: parameters.bidder_name },
+                                { type: "text", text: parameters.original_price },
+                                { type: "text", text: parameters.checkin },
+                                { type: "text", text: parameters.checkout }
+                            ];
+    }
+    else if (template_name === "bid_acc") {
+        params = [ {type: "text", text: parameters.listing_name },
+                  {type: "text", text: parameters.book_before },
+            ];
+    }
+    else {
+        params = [ {type: "text", text: parameters.listing_name },
+                  {type: "text", text: parameters.guest_name },
+                  {type: "text", text: parameters.checkin },
+                  {type: "text", text: parameters.checkout },
+                  ];
+    }
     try {
         const response = await axios.post(
             `https://graph.facebook.com/v19.0/${WHATSAPP_PHONE_NUMBER_ID}/messages`,
@@ -28,21 +50,14 @@ app.post('/whatsapp-webhook', async (req, res) => {
                 to: phone,
                 type: 'template',
                 template: { 
-                    name: "bid_rec",
+                    name: template_name,
                     language: {
                          "code": "en"
                     },
                     components: [
                         {
                             type: "body",
-                            parameters: [
-                                { type: "text", text: parameters.bid_amount },
-                                { type: "text", text: parameters.listing_name },
-                                { type: "text", text: parameters.bidder_name },
-                                { type: "text", text: parameters.original_price },
-                                { type: "text", text: parameters.checkin },
-                                { type: "text", text: parameters.checkout }
-                            ]
+                            parameters: params
                         }
                     ]
             },
@@ -61,6 +76,8 @@ app.post('/whatsapp-webhook', async (req, res) => {
         console.error('WhatsApp send error:', error.response?.data || error.message);
         res.status(500).json({ success: false, error: error.response?.data || error.message });
     }
+    
+        
 });
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
