@@ -12,15 +12,19 @@ const WHATSAPP_PHONE_NUMBER_ID = process.env.PHONE_ID;
 
 app.post('/whatsapp-webhook', async (req, res) => {
     const { phone, template_name, parameters } = req.body;
+    
 
     // Basic validation
     if (!phone || !template_name || !parameters) {
+        console.log("no");
         return res.status(400).json({ success: false, error: 'Missing required fields' });
     }
+    console.log(parameters);
 
     let params = [];
 
     if (template_name === "bid_rec") {
+        console.log("1");
         params = [
             { type: "text", text: parameters.bid_amount },
             { type: "text", text: parameters.listing_name },
