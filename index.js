@@ -12,13 +12,16 @@ const WHATSAPP_PHONE_NUMBER_ID = process.env.PHONE_ID;
 
 app.post('/whatsapp-webhook', async (req, res) => {
     console.log("we here");
+    
    const {
         phone,
         template_name,
         parameters
     } = req.body;
+    console.log(parameters);
     var params = [];
     if (template_name === "bid_rec") {
+        console.log("rec");
     params = [
                                 { type: "text", text: parameters.bid_amount },
                                 { type: "text", text: parameters.listing_name },
@@ -29,6 +32,7 @@ app.post('/whatsapp-webhook', async (req, res) => {
                             ];
     }
     else if (template_name === "bid_acc") {
+        console.log("bid_acc")
         params = [ {type: "text", text: parameters.listing_name },
                   {type: "text", text: parameters.book_before },
             ];
