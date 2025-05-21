@@ -65,12 +65,13 @@ app.post('/whatsapp-webhook', async (req, res) => {
                         }
                     ]
             },
-            },
+            
             {
                 headers: {
                     'Authorization': `Bearer ${WHATSAPP_TOKEN}`,
                     'Content-Type': 'application/json',
                 },
+            }
             }
         );
 
