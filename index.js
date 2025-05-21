@@ -26,10 +26,10 @@ app.post('/whatsapp-webhook', async (req, res) => {
     if (template_name === "bid_rec") {
         console.log("1");
         params = [
-            { type: "text", text: parameters.bid_amount },
+            { type: "text", text: parameters.bid_amount.toString() },
             { type: "text", text: parameters.listing_name },
             { type: "text", text: parameters.bidder_name },
-            { type: "text", text: parameters.original_price },
+            { type: "text", text: parameters.original_price.toString() },
             { type: "text", text: parameters.checkin },
             { type: "text", text: parameters.checkout }
         ];
