@@ -20,6 +20,7 @@ app.post('/whatsapp-webhook', async (req, res) => {
         return res.status(400).json({ success: false, error: 'Missing required fields' });
     }
     console.log(parameters);
+    console.log(phone);
 
     let params = [];
 
